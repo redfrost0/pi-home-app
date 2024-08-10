@@ -7,9 +7,6 @@ const fetcher = (url: string | URL | Request) => fetch(url).then(r => r.json())
 
 export default function Home() {
   const { data, error } = useSWR('api/stats', fetcher, { refreshInterval: 2000 })
-  console.log(data);
-  console.log(error);
-  // const systemInfo = await getSystemDetails();
   if (data) return (
     <main className="min-h-screen bg-slate-75 flex flex-col items-center justify-center p-6">
       <h1 className="text-3xl font-bold mb-6 text-foreground">Raspberry Pi</h1>
