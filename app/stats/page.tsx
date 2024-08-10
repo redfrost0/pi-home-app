@@ -2,7 +2,8 @@
 import useSWR from 'swr'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-const fetcher = url => fetch(url).then(r => r.json())
+import { ReactElement, JSXElementConstructor, ReactNode, AwaitedReactNode, Key } from 'react';
+const fetcher = (url: string | URL | Request) => fetch(url).then(r => r.json())
 
 export default function Home() {
   const { data, error } = useSWR('api/stats', fetcher, { refreshInterval: 2000 })
@@ -35,7 +36,7 @@ export default function Home() {
 
           <div className="space-y-2">
             <h3 className="text-lg font-semibold text-foreground">CPU Usage</h3>
-            {data.cpuPercent.map((usage, index) => (
+            {data.cpuPercent.map((usage: string, index: string | number) => (
               <div key={index} className="space-y-1">
                 <div className="flex justify-between text-sm text-muted-foreground">
                   <span>Core {index}</span>
