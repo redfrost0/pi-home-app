@@ -2,11 +2,19 @@
 import useSWR from 'swr'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { LoadingSpinner } from '@/components/ui/loading';
 const fetcher = (url: string | URL | Request) => fetch(url).then(r => r.json())
 
 export default function Home() {
-  const { data, error } = useSWR('http://localhost:8440/stats', fetcher, { refreshInterval: 2000 })
-  if (data) return (
+  const { data, isLoading, error } = useSWR('api/stats', fetcher, { refreshInterval: 2000 })
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-slate-75 flex flex-col items-center justify-center p-6">
+        <LoadingSpinner />
+        </main>
+  )
+  }
+  return (
     <main className="min-h-screen bg-slate-75 flex flex-col items-center justify-center p-6">
       <h1 className="text-3xl font-bold mb-6 text-foreground">Raspberry Pi</h1>
 
