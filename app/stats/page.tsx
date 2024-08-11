@@ -3,10 +3,21 @@ import useSWR from 'swr'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { LoadingSpinner } from '@/components/ui/loading';
-const fetcher = (url: string | URL | Request) => fetch(url).then(r => r.json())
+const fetcher = (url: string | URL | Request) => fetch(url).then(r => {
+  if (r.status >= 400) {
+    throw new Error("You broke me api :(")
+  }
+  return r.json()
+});
 
 export default function Home() {
   const { data, isLoading, error } = useSWR('api/stats', fetcher, { refreshInterval: 2000 })
+  if (error) {
+    return (<main className="min-h-screen bg-slate-75 flex flex-col items-center justify-center p-6">
+      <h1 className="text-3xl font-bold mb-6 text-foreground">😡</h1>
+      <p>Leave me app alone</p>
+      </main>)
+  }
   if (isLoading) {
     return (
       <main className="min-h-screen bg-slate-75 flex flex-col items-center justify-center p-6">
@@ -23,7 +34,7 @@ export default function Home() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-          <h3 className="text-lg font-semibold text-foreground">OS</h3>
+          <h3 >OS</h3>
             {[
               ["Hostname", data.os.hostname],
               ["Platform", data.os.platform],
