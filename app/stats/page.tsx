@@ -11,7 +11,7 @@ const fetcher = (url: string | URL | Request) => fetch(url).then(r => {
 });
 
 export default function Home() {
-  const { data, isLoading, error } = useSWR('api/stats', fetcher, { refreshInterval: 2000 })
+  const { data, isLoading, error } = useSWR('https://sys-api.joelspi.org/stats', fetcher, { refreshInterval: 2000 })
   if (error) {
     return (
       <main className="min-h-screen bg-slate-75 flex flex-col items-center justify-center p-6">
