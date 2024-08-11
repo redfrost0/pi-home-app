@@ -13,17 +13,19 @@ const fetcher = (url: string | URL | Request) => fetch(url).then(r => {
 export default function Home() {
   const { data, isLoading, error } = useSWR('api/stats', fetcher, { refreshInterval: 2000 })
   if (error) {
-    return (<main className="min-h-screen bg-slate-75 flex flex-col items-center justify-center p-6">
-      <h1 className="text-3xl font-bold mb-6 text-foreground">😡</h1>
-      <p>Leave me app alone</p>
-      </main>)
+    return (
+      <main className="min-h-screen bg-slate-75 flex flex-col items-center justify-center p-6">
+        <h1 className="text-3xl font-bold mb-6 text-foreground">😡</h1>
+        <p>Leave me app alone</p>
+      </main>
+    )
   }
   if (isLoading) {
     return (
       <main className="min-h-screen bg-slate-75 flex flex-col items-center justify-center p-6">
         <LoadingSpinner />
-        </main>
-  )
+      </main>
+    )
   }
   return (
     <main className="min-h-screen bg-slate-75 flex flex-col items-center justify-center p-6">
@@ -34,7 +36,7 @@ export default function Home() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-          <h3 >OS</h3>
+            <h3 >OS</h3>
             {[
               ["Hostname", data.os.hostname],
               ["Platform", data.os.platform],
@@ -69,9 +71,9 @@ export default function Home() {
               <span>Used</span>
               <span>{data.memUsage.used} / {data.memUsage.total} MB</span>
             </div>
-            <Progress 
-              value={data.memUsage.percent} 
-              className="h-2" 
+            <Progress
+              value={data.memUsage.percent}
+              className="h-2"
             />
           </div>
 
@@ -81,12 +83,12 @@ export default function Home() {
               <span>Used</span>
               <span>{data.diskUsage.used} / {data.diskUsage.total} GB</span>
             </div>
-            <Progress 
-              value={data.diskUsage.percent} 
-              className="h-2" 
+            <Progress
+              value={data.diskUsage.percent}
+              className="h-2"
             />
           </div>
-          
+
         </CardContent>
       </Card>
     </main>
