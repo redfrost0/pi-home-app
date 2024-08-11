@@ -17,7 +17,6 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-75 flex flex-col items-center justify-center p-6">
       <h1 className="text-3xl font-bold mb-6 text-foreground">Raspberry Pi</h1>
-
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>System Information</CardTitle>
@@ -30,6 +29,7 @@ export default function Home() {
               ["Platform", data.os.platform],
               ["Architecture", data.os.arch],
               ["CPU Temperature", `${data.cpuTemp.toFixed(1)}°C`],
+              ["Up Time", data.os.upTime]
             ].map(([label, value]) => (
               <div key={label} className="flex justify-between text-sm">
                 <span className="text-muted-foreground">{label}:</span>
