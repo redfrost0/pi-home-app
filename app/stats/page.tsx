@@ -11,7 +11,8 @@ const fetcher = (url: string | URL | Request) => fetch(url).then(r => {
 });
 
 export default function Home() {
-  const { data, isLoading, error } = useSWR('https://sys-api.joelspi.org/stats', fetcher, { refreshInterval: 2000 })
+  //const { data, isLoading, error } = useSWR('https://sys-api.joelspi.org/stats', fetcher, { refreshInterval: 2000 })
+  const { data, isLoading, error } = useSWR('http://127.0.0.1:8000/stats', fetcher, { refreshInterval: 2000 })
   if (error) {
     return (
       <main className="min-h-screen bg-slate-75 flex flex-col items-center justify-center p-6">
@@ -80,14 +81,52 @@ export default function Home() {
           <div className="space-y-2">
             <h3 className="text-lg font-semibold text-foreground">Disk Usage</h3>
             <div className="flex justify-between text-sm text-muted-foreground">
-              <span>Used</span>
-              <span>{data.diskUsage.used} / {data.diskUsage.total} GB</span>
+              <span>{data.diskUsage[0].name}</span>
+              <span>{data.diskUsage[0].used} / {data.diskUsage[0].total} GB</span>
             </div>
             <Progress
-              value={data.diskUsage.percent}
+              value={data.diskUsage[0].percent}
+              className="h-2"
+            />
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <span>{data.diskUsage[1].name}</span>
+              <span>{data.diskUsage[1].used} / {data.diskUsage[1].total} GB</span>
+            </div>
+            <Progress
+              value={data.diskUsage[1].percent}
               className="h-2"
             />
           </div>
+
+          <div className="space-y-2">
+            <h3 className="text-lg font-semibold text-foreground">Network Usage</h3>
+            <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Total Download</span>
+                <span className="text-foreground font-medium">{data.network.totalIn} MB</span>
+            </div>
+            <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Total Upload</span>
+                <span className="text-foreground font-medium">{data.network.totalOut} MB</span>
+            </div>
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <span>Current Download</span>
+              <span>{data.network.inSpeed} MBPS</span>
+            </div>
+            <Progress
+              value={data.network.inSpeed / 600}
+              className="h-2"
+            />
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <span>Current Upload</span>
+              <span>{data.network.outSpeed} MBPS</span>
+            </div>
+            <Progress
+              value={data.network.outSpeed / 600}
+              className="h-2"
+            />
+          </div>
+
+    
 
         </CardContent>
       </Card>
